@@ -22,9 +22,9 @@ const options = {
 
 JSDOM.fromFile('example1.html', options).then((dom) => {
     const { document } = dom.window;
-    // var root = document.querySelector("body");
+    var root = document.querySelector("body");
     // console.log(root.innerHTML);
     // console.log(dom.window.querySelector("p"))
-
+    //
     // console.log(document.getElementById("#pedigrees").innerHTML);
 });

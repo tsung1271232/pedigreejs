@@ -1473,7 +1473,7 @@
 		    .attr("y2", function(d, i) {return -0.6*opts.symbol_size;});
 
 		// names of individuals
-		addLabel(opts, node, ".25em", -(0.4 * opts.symbol_size), -(0.1 * opts.symbol_size),
+		addLabel(opts, node, ".75em", -(0.4 * opts.symbol_size), -(0.1 * opts.symbol_size),
 				function(d) {
 					if(opts.DEBUG)
 						return ('display_name' in d.data ? d.data.display_name : d.data.name) + '  ' + d.data.id;
@@ -1488,7 +1488,9 @@
 		.html("\uf071");
 		warn.append("svg:title").text("incomplete");*/
 
-		var font_size = parseInt(getPx(opts.font_size)) + 4;
+		// var font_size = parseInt(getPx(opts.font_size)) + 4;
+		var regex = /[+-]?\d+(?:\.\d+)?/g;
+		var font_size = regex.exec(opts.font_size) * 16;
 		// display label defined in opts.labels e.g. alleles/genotype data
 		for(var ilab=0; ilab<opts.labels.length; ilab++) {
 			var label = opts.labels[ilab];
@@ -2028,19 +2030,19 @@
 	}
 
 	// get height in pixels
-	function getPx(emVal){
-		if (emVal === parseInt(emVal, 10)) // test if integer
-			return emVal;
-
-		if(emVal.indexOf("px") > -1)
-			return emVal.replace('px', '');
-		else if(emVal.indexOf("em") === -1)
-			return emVal;
-		var adiv = $('<div style="display: none; font-size: '+emVal+'; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('body');
-		var hgt = adiv.height();
-		adiv.remove();
-		return hgt;
-	};
+	// function getPx(emVal){
+	// 	if (emVal === parseInt(emVal, 10)) // test if integer
+	// 		return emVal;
+	//
+	// 	if(emVal.indexOf("px") > -1)
+	// 		return emVal.replace('px', '');
+	// 	else if(emVal.indexOf("em") === -1)
+	// 		return emVal;
+	// 	var adiv = $('<div style="display: none; font-size: '+emVal+'; margin: 0; padding:0; height: auto; line-height: 1; border:0;">&nbsp;</div>').appendTo('body');
+	// 	var hgt = adiv.height();
+	// 	adiv.remove();
+	// 	return hgt;
+	// };
 
 	// Add label
 	function addLabel(opts, node, size, fx, fy, ftext, class_label) {
@@ -3636,44 +3638,111 @@
 }(window.widgets = window.widgets || {}, jQuery));
 
 //# sourceMappingURL=pedigreejs.js.map
+// function testing()
+// {
+// 	var parent_width = $('#pedigrees').parent().width();
+// 	var margin = ($(window).width()-parent_width > 10 ? 100 : 30);
+// 	var svg_width = (parent_width > 750 ? (parent_width*8/12 - margin) : parent_width- margin);
+//
+// 	var dataset = [
+// 		{"name": "m11", "display_name": "John",  "sex": "M", "diabetes_diagnosis_age": 55, "top_level": true},
+// 		{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true},
+// 		{"name": "m12", "display_name": "Jack", "sex": "M", "top_level": true},
+// 		{"name": "f12", "display_name": "Jill", "sex": "F", "top_level": true},
+// 		{"name": "m21", "display_name": "Jim", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
+// 		{"name": "f21", "display_name": "Jan", "sex": "F", "mother": "f12", "father": "m12", "age": 63},
+// 		{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
+// 	];
+// 	var opts = {
+// 		'targetDiv': 'pedigrees',
+// 		'btn_target': 'diabetes_history',
+// 		'store_type': 'session',
+// 		'width': 600,
+// 		'height': 600,
+// 		'symbol_size': 35,
+// 		'edit': true,
+// 		'diseases': [
+// 			{'type': 'diabetes', 'colour': '#F68F35'},
+// 		],
+// 		'DEBUG': (window.pedigree_util.urlParam('debug') === null ? false : true)
+// 	};
+//
+// 	$('#opts').append(JSON.stringify(opts, null, 4));
+//
+// 	var local_dataset = window.window.pedcache.current(opts);
+// 	if (local_dataset !== undefined && local_dataset !== null) {
+// 		opts.dataset = local_dataset;
+// 	} else {
+// 		opts.dataset = dataset;
+// 	};
+// 	opts= window.ptree.build(opts);
+// 	// console.log(document.getElementById("pedigrees").innerHTML);
+// 	console.log(io.get_printable_svg(opts).html());
+// };
 function testing()
 {
 	var parent_width = $('#pedigrees').parent().width();
 	var margin = ($(window).width()-parent_width > 10 ? 100 : 30);
-	var svg_width = (parent_width > 750 ? (parent_width*8/12 - margin) : parent_width- margin);
+	var svg_width = (parent_width > 750 ? (parent_width > 1200 ? (parent_width*8/12 - margin)*0.6 :
+		(parent_width*8/12 - margin)*0.8) : parent_width- margin);
+	//
+	// var dataset = [
+	// 	{"name": "m11", "sex": "M", "top_level": true},
+	// 	{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true, "breast_cancer":true, "ovarian_cancer":true},
+	// 	{"name": "m12", "sex": "M", "top_level": true},
+	// 	{"name": "f12", "sex": "F", "top_level": true, "breast_cancer":true},
+	// 	{"name": "m21", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
+	// 	{"name": "f21", "display_name": "Joy", "sex": "F", "mother": "f12", "father": "m12", "breast_cancer":true, "breast_cancer2": true, "ovarian_cancer":true, "age": 63},
+	// 	{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
+	// ];
 
 	var dataset = [
-		{"name": "m11", "display_name": "John",  "sex": "M", "diabetes_diagnosis_age": 55, "top_level": true},
-		{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true},
-		{"name": "m12", "display_name": "Jack", "sex": "M", "top_level": true},
-		{"name": "f12", "display_name": "Jill", "sex": "F", "top_level": true},
-		{"name": "m21", "display_name": "Jim", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
-		{"name": "f21", "display_name": "Jan", "sex": "F", "mother": "f12", "father": "m12", "age": 63},
-		{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
+	{"name":"m11","sex":"M","top_level":true},
+	{"name":"f11","display_name":"Jane","sex":"F","status":1,"top_level":true,"breast_cancer_diagnosis_age":67,"ovarian_cancer_diagnosis_age":63},
+	{"name":"m12","sex":"M","top_level":true},
+	{"name":"f12","sex":"F","top_level":true,"breast_cancer_diagnosis_age":55},
+	{"name":"m21","sex":"M","mother":"f11","father":"m11","age":56},
+	{"name":"f21","sex":"F","mother":"f12","father":"m12","breast_cancer_diagnosis_age":55,"breast_cancer2_diagnosis_age":60,"ovarian_cancer_diagnosis_age":58,"age":63},
+	{"name":"ch1","display_name":"Ana","sex":"F","mother":"f21","father":"m21","proband":true,"age":25}
 	];
+
+	function openDialog(opts, d) {
+		var table = "<table id='person_details' class='table'>";
+		table += "<tr><td style='text-align:right'>ID</td><td><input class='form-control' type='text' id='id_name' value="+
+					d.data.name+"></td></tr>";
+		$.each(opts.diseases, function(k, v) {
+			var disease_colour = '&thinsp;<span style="padding-left:5px;background:'+opts.diseases[k].colour+'"></span>';
+			table += '<tr><td colspan="2">' +
+					 '<label class="checkbox-inline"><input type="checkbox" id="id_'+v.type +
+						'" name="'+v.type+'" value="0" '+(d.data[v.type] ? "checked" : "")+'>'+disease_colour+'&thinsp;' +
+						v.type.replace("_", " ")+'</label></td></tr>'
+		});
+		$('#node_properties').html(table);
+		$('#node_properties').dialog({title: d.data.display_name});
+		$('#node_properties input[type=checkbox]').change(function() {
+			pedigree_form.save(opts);
+		});
+	}
 	var opts = {
-		'targetDiv': 'pedigrees',
-		'btn_target': 'diabetes_history',
-		'store_type': 'session',
-		'width': 600,
-		'height': 600,
-		'symbol_size': 35,
-		'edit': true,
-		'diseases': [
-			{'type': 'diabetes', 'colour': '#F68F35'},
-		],
-		'DEBUG': (window.pedigree_util.urlParam('debug') === null ? false : true)
-	};
+			'targetDiv': 'pedigrees',
+			'btn_target': 'cancer_history3',
+			'width': svg_width,
+			'height': 400,
+			'symbol_size': 40,
+			'font_size': '1.1em',
+			'font_family': 'times',
+			'font_weight': 400,
+			'edit': openDialog,
+			'node_background': '#fff',
+			'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
+		};
 
-	$('#opts').append(JSON.stringify(opts, null, 4));
-
-	var local_dataset = window.window.pedcache.current(opts);
+	var local_dataset = pedcache.current(opts);
 	if (local_dataset !== undefined && local_dataset !== null) {
 		opts.dataset = local_dataset;
 	} else {
 		opts.dataset = dataset;
-	};
-	opts= window.ptree.build(opts);
-	console.log(document.getElementById("pedigrees").innerHTML);
+	}
+	opts= ptree.build(opts);
+	console.log(io.get_printable_svg(opts).html());
 };
-// testing();
