@@ -3685,54 +3685,16 @@ function testing()
 	var margin = ($(window).width()-parent_width > 10 ? 100 : 30);
 	var svg_width = (parent_width > 750 ? (parent_width > 1200 ? (parent_width*8/12 - margin)*0.6 :
 		(parent_width*8/12 - margin)*0.8) : parent_width- margin);
-	//
-	// var dataset = [
-	// 	{"name": "m11", "sex": "M", "top_level": true},
-	// 	{"name": "f11", "display_name": "Jane",  "sex": "F", "status": 1, "top_level": true, "breast_cancer":true, "ovarian_cancer":true},
-	// 	{"name": "m12", "sex": "M", "top_level": true},
-	// 	{"name": "f12", "sex": "F", "top_level": true, "breast_cancer":true},
-	// 	{"name": "m21", "sex": "M", "mother": "f11", "father": "m11", "age": 56},
-	// 	{"name": "f21", "display_name": "Joy", "sex": "F", "mother": "f12", "father": "m12", "breast_cancer":true, "breast_cancer2": true, "ovarian_cancer":true, "age": 63},
-	// 	{"name": "ch1", "display_name": "Ana", "sex": "F", "mother": "f21", "father": "m21", "proband": true, "age": 25}
-	// ];
 
-	var dataset = [
-	{"name":"m11","sex":"M","top_level":true},
-	{"name":"f11","display_name":"Jane","sex":"F","status":1,"top_level":true,"breast_cancer_diagnosis_age":67,"ovarian_cancer_diagnosis_age":63},
-	{"name":"m12","sex":"M","top_level":true},
-	{"name":"f12","sex":"F","top_level":true,"breast_cancer_diagnosis_age":55},
-	{"name":"m21","sex":"M","mother":"f11","father":"m11","age":56},
-	{"name":"f21","sex":"F","mother":"f12","father":"m12","breast_cancer_diagnosis_age":55,"breast_cancer2_diagnosis_age":60,"ovarian_cancer_diagnosis_age":58,"age":63},
-	{"name":"ch1","display_name":"Ana","sex":"F","mother":"f21","father":"m21","proband":true,"age":25}
-	];
-
-	function openDialog(opts, d) {
-		var table = "<table id='person_details' class='table'>";
-		table += "<tr><td style='text-align:right'>ID</td><td><input class='form-control' type='text' id='id_name' value="+
-					d.data.name+"></td></tr>";
-		$.each(opts.diseases, function(k, v) {
-			var disease_colour = '&thinsp;<span style="padding-left:5px;background:'+opts.diseases[k].colour+'"></span>';
-			table += '<tr><td colspan="2">' +
-					 '<label class="checkbox-inline"><input type="checkbox" id="id_'+v.type +
-						'" name="'+v.type+'" value="0" '+(d.data[v.type] ? "checked" : "")+'>'+disease_colour+'&thinsp;' +
-						v.type.replace("_", " ")+'</label></td></tr>'
-		});
-		$('#node_properties').html(table);
-		$('#node_properties').dialog({title: d.data.display_name});
-		$('#node_properties input[type=checkbox]').change(function() {
-			pedigree_form.save(opts);
-		});
-	}
 	var opts = {
 			'targetDiv': 'pedigrees',
-			'btn_target': 'cancer_history3',
+			'btn_target': 'cancer_history',
 			'width': svg_width,
 			'height': 400,
 			'symbol_size': 40,
 			'font_size': '1.1em',
 			'font_family': 'times',
 			'font_weight': 400,
-			'edit': openDialog,
 			'node_background': '#fff',
 			'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
 		};
