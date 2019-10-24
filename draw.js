@@ -1,3 +1,4 @@
+process.chdir(__dirname);
 const { JSDOM } = require('jsdom');
 
 const options = {
