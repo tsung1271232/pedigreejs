@@ -1535,8 +1535,8 @@
 						return y_offset;
 					},
 					function(d) {
-
-						var dis = disease.replace('_', ' ').replace('cancer', 'ca.');
+						// var dis = disease.replace('_', ' ').replace('cancer', 'ca.');
+						var dis = abbreviation[disease];
 						return disease+'_diagnosis_age' in d.data ? dis +": "+ d.data[disease+'_diagnosis_age'] : '';
 					}, 'indi_details');
 		}
@@ -3658,26 +3658,26 @@ function pedigree()
 			'font_weight': 400,
 			'node_background': '#fff',
 			diseases: [	{'type': 'breast_cancer', 'colour': '#F68F35'},
-						{'type': 'ovarian_cancer', 'colour': '#4DAA4D'},
-						{'type': 'endometrial_cancer', 'colour': '#FF88C2'},
-						{'type': 'stomach__cancer', 'colour': '#FFBB66'},
-						{'type': 'pancreatic_cancer', 'colour': '#4289BA'},
-						{'type': 'cholangiocarcinoma_cancer', 'colour': '#DDFF77'},
-						{'type': 'colorectal_cancer', 'colour': '#0066FF'},
-						{'type': 'small_intestine_cancer', 'colour': '#00BBFF'},
-						{'type': 'kidney_cancer', 'colour': '#00FFFF'},
-						{'type': 'bladder_cancer', 'colour': '#00FFCC'},
-						{'type': 'urinary_tract__cancer', 'colour': '#00FF99'},
-						{'type': 'prostate_cancer', 'colour': '#00FF00'},
-						{'type': 'skin_cancer', 'colour': '#77FF00'},
-						{'type': 'thyroid_cancer', 'colour': '#BBFF00'},
-						{'type': 'adrenal_cancer', 'colour': '#FFFF00'},
-						{'type': 'lymphoma', 'colour': '#FFBB00'},
-						{'type': 'brain_cancer', 'colour': '#FF8800'},
-						{'type': 'leukemia', 'colour': '#FF5511'},
-						{'type': 'sarcoma', 'colour': '#FF0088'},
-						{'type': 'codwen', 'colour': '#888888'},
-						{'type': 'other_cancer', 'colour': '#FF0000'}],
+				{'type': 'ovarian_cancer', 'colour': '#4DAA4D'},
+				{'type': 'endometrial_cancer', 'colour': '#FF88C2'},
+				{'type': 'stomach_cancer', 'colour': '#FFBB66'},
+				{'type': 'pancreatic_cancer', 'colour': '#4289BA'},
+				{'type': 'cholangiocarcinoma_cancer', 'colour': '#DDFF77'},
+				{'type': 'colorectal_cancer', 'colour': '#0066FF'},
+				{'type': 'small_intestine_cancer', 'colour': '#00BBFF'},
+				{'type': 'kidney_cancer', 'colour': '#00FFFF'},
+				{'type': 'bladder_cancer', 'colour': '#00FFCC'},
+				{'type': 'urinary_tract__cancer', 'colour': '#00FF99'},
+				{'type': 'prostate_cancer', 'colour': '#00FF00'},
+				{'type': 'skin_cancer', 'colour': '#77FF00'},
+				{'type': 'thyroid_cancer', 'colour': '#BBFF00'},
+				{'type': 'adrenal_cancer', 'colour': '#FFFF00'},
+				{'type': 'lymphoma', 'colour': '#FFBB00'},
+				{'type': 'brain_cancer', 'colour': '#FF8800'},
+				{'type': 'leukemia', 'colour': '#FF5511'},
+				{'type': 'sarcoma', 'colour': '#FF0088'},
+				{'type': 'codwen', 'colour': '#888888'},
+				{'type': 'other_cancer', 'colour': '#FF0000'}],
 			'DEBUG': (pedigree_util.urlParam('debug') === null ? false : true)
 		};
 
@@ -3689,4 +3689,28 @@ function pedigree()
 	}
 	opts= ptree.build(opts);
 	console.log(io.get_printable_svg(opts).html());
+};
+
+var abbreviation = {
+	"breast_cancer": "BRCA",
+	"ovarian_cancer":"OV",
+	"endometrial_cancer":"ESCA",
+	"stomach_cancer":"STAD",
+	"pancreatic_cancer":"PAAD",
+ 	"cholangiocarcinoma_cancer":"CHOL",
+	"colorectal_cancer":"CRC",
+	"small_intestine_cancer":"small_intestine_cancer",
+	"kidney_cancer":"kidney_cancer",
+ 	"bladder_cancer": "BLCA",
+	"urinary_tract__cancer":"urinary_tract__cancer",
+	"prostate_cancer":"PRAD",
+	"skin_cancer":"SKCM",
+	"thyroid_cancer":"THCA",
+	"adrenal_cancer":"ACC",
+	"lymphoma":"lymphoma",
+	"brain_cancer":"brain_cancer",
+	"leukemia":"leukemia",
+	"sarcoma":"SARC",
+	"codwen":"codwen",
+	"other_cancer": "other_cancer",
 };
